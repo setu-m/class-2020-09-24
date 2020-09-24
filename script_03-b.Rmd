@@ -1,6 +1,6 @@
 ---
 title: "Week 3, Day 2"
-author: "David Kane"
+author: "Setu Mehta"
 output: html_document
 ---
 
@@ -50,9 +50,44 @@ sep_new <-
 
 a) Make a table using **gt** which shows the five courses with the biggest increase. Use the [How to make a table](https://davidkane9.github.io/PPBDS/tools.html#how-to-make-a-table) section of *The Primer*.
 
+```{r}
+joined <- inner_join(sep_old, sep_new, by = c('id', 'title', 'name', 'department'), suffix = c("_old", "_new")) %>%
+  mutate(change = u_grad_new - u_grad_old) %>% 
+  arrange(desc(change)) %>%
+  slice(1:5) 
+joined %>%
+  gt()
+  
+joined
+```
+
 b) Make a table using **gt** which shows the five courses with the biggest decrease.
 
+```{r}
+rev_joined <- inner_join(sep_old, sep_new, by = c('id', 'title', 'name', 'department'), suffix = c("_old", "_new")) %>%
+  mutate(change = u_grad_new - u_grad_old) %>% 
+  arrange(change) %>%
+  slice(1:5) 
+ 
+rev_joined %>%
+  gt()
+  
+
+```
+
 c) Make a nice looking graphic which shows these 10 courses.
+
+```{r}
+all <- full_join(joined, rev_joined, by = c("id", "title", "name", "department", "u_grad_old", "u_grad_new", "change"))
+
+
+ggplot(all, aes(name, change, fill = department)) +
+  geom_col() +
+  coord_flip()
+  
+
+```
+
 
 d) Write down some thoughts about what might explain these increases and decreases. Or is it all just random? How would we know?
 
