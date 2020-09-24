@@ -55,8 +55,19 @@ joined <- inner_join(sep_old, sep_new, by = c('id', 'title', 'name', 'department
   mutate(change = u_grad_new - u_grad_old) %>% 
   arrange(desc(change)) %>%
   slice(1:5) 
+
 joined %>%
-  gt()
+  gt() %>%
+  cols_label(id = "Course ID", 
+             title = "Title", 
+             name = "Course Name", 
+             department = "Dept", 
+             u_grad_old = "Old #", 
+             u_grad_new = "New #") %>%
+  tab_header(title = "Top 5 Courses with Increase in 
+                Enrollment") 
+  
+          
   
 joined
 ```
@@ -98,6 +109,8 @@ See [here](https://rpubs.com/dkane/week-3) for my answers. No need to copy exact
 ## Scene 2
 
 **Prompt:** Dean Amanda Claybaugh is worried that the amount of work that some classes assigned in the first few weeks of class. Describe an ideal Preceptor Table with no missing data which would allow us to investigate this situation. What data is missing and why? 
+
+# An ideal preceptor table would have no missing data, and would have all of the data required to answer our investigation question.
 
 With our actual Preceptor Table, how might we investigate the effect of work assigned in the first two weeks? Would the estimated Average Treatment Effect be accurate? Why or why not?
 
